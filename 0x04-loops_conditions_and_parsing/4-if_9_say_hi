@@ -8,5 +8,5 @@ do
     then
         echo "Hi"
     fi
-    x=$(( $x + 1 ))
+    x=$(( x + 1 ))
 done

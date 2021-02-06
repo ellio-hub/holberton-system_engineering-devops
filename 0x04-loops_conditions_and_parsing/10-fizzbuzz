@@ -1,6 +1,5 @@
-
 #!/usr/bin/env bash
-#Bash script that displays numbers from 1 to 100
+# Bash script that displays numbers from 1 to 100
 x=1
 while [ $x -le 100 ]
 do
@@ -16,5 +15,5 @@ do
     else
         echo $x
     fi
-    x=$(( $x + 1 ))
+    x=$(( x + 1 ))
 done

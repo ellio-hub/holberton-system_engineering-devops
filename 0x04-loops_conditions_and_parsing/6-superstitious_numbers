@@ -8,7 +8,7 @@ do
         echo "$x"
         echo "bad luck from China"
         ;;
-    8)
+    9)
         echo "$x"
         echo "bad luck from Japan"
         ;;
@@ -20,5 +20,5 @@ do
         echo "$x"
         ;;
     esac
-    x=$(( $x + 1 ))
+    x=$(( x + 1 ))
 done
