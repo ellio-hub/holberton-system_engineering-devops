@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Bash script that configures an Ubuntu server
+sudo ifconfig localhost 127.0.0.2
+sudo ifconfig facebook.com 8.8.8.8
