@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# print indefinitely with delay 2 and handle ^C
+while :
+do
+	echo "To infinity and beyond"
+	sleep 2
+	trap 'echo "I am invincible!!!"' SIGTERM
+done
