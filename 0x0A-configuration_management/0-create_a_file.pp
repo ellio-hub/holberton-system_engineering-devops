@@ -1,4 +1,3 @@
-  
 # Create file using Puppet
 file { '/tmp/holberton':
     ensure  => 'present',
