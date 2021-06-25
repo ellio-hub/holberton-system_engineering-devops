@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Configure Nginx server
+sudo apt-get update -y && sudo apt-get upgrade -y
+sudo apt-get install -y nginx
+sudo chown -R "$USER":"$USER" /var/www/
+sudo chown -R "$USER":"$USER" /etc/nginx
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+line="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=ZUrZnux72zI permanent;"
+sudo sed -i "26i $line" /etc/nginx/sites-available/default
+sudo service nginx restart
+sudo service nginx reload
