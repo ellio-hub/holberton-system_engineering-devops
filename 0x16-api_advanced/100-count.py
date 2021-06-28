@@ -26,13 +26,13 @@ def count_words(subreddit, word_list, after='', occurs={}):
     for i in range(0, dataLength):
         try:
             get_title = data['data']['children'][i]['data']['title']
-            for ww in word_list:
+            for u in word_list:
                 try:
-                    occurs[ww]
+                    occurs[u]
                 except KeyError:
-                    occurs[ww] = 0
+                    occurs[u] = 0
                 finally:
-                    occurs[ww] += re.subn(r'(?i)(?<!\S)\b{}\b(?!\S)'.format(ww),
+                    occurs[u] += re.subn(r'(?i)(?<!\S)\b{}\b(?!\S)'.format(u),
                                          '', get_title)[1]
         except:
             pass
