@@ -1,7 +1,6 @@
-  
 #!/usr/bin/python3
 """
-Querie Reddit API 
+Querie Reddit API
 """
 import requests
 headers = {"User-Agent": "ubuntu:hbtn:v1.0 (by /u/Tristan_001)"}
