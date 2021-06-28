@@ -1,53 +1,46 @@
 #!/usr/bin/python3
 """
-Recursive function to querie Reddit API
+    Recursive function to querie Reddit API
 """
-import pprint
 import re
 import requests
+headers = {'user-agent': 'ubuntu:hbtn:v1.0\
+ (by /u/Tristan_001)'}
 
-BASE_URL = 'http://reddit.com/r/{}/hot.json'
 
-
-def count_words(subreddit, word_list, hot_list=[], after=None):
-    '''
+def count_words(subreddit, word_list, after='', occurs={}):
+    """
     Recursive function to querie Reddit API
-    '''
-    headers = {'User-agent': 'Unix:0-subs:v1'}
-    params = {'limit': 100}
-    if isinstance(after, str):
-        if after != "STOP":
-            params['after'] = after
-        else:
-            return print_results(word_list, hot_list)
-
-    response = requests.get(BASE_URL.format(subreddit),
-                            headers=headers, params=params)
-    if response.status_code != 200:
-        return None
-    data = response.json().get('data', {})
-    after = data.get('after', 'STOP')
-    if not after:
-        after = "STOP"
-    hot_list = hot_list + [post.get('data', {}).get('title')
-                           for post in data.get('children', [])]
-    return count_words(subreddit, word_list, hot_list, after)
-
-
-def print_results(word_list, hot_list):
-    '''
-    Recursive function to querie Reddit API
-    '''
-    count = {}
-    for ww in word_list:
-        count[ww] = 0
-    for title in hot_list:
-        for ww in word_list:
-            count[ww] = count[ww] +\
-             len(re.findall(r'(?:^| ){}(?:$| )'.format(ww), title, re.I))
-
-    count = {k: v for k, v in count.items() if v > 0}
-    words = sorted(list(count.keys()))
-    for ww in sorted(words,
-                       reverse=True, key=lambda k: count[k]):
-        print("{}: {}".format(ww, count[ww]))
+    """
+    url = 'https://api.reddit.com/r/' + subreddit + '?limit=100&after=' + after
+    response = requests.get(url, headers=headers)
+    try:
+        data = response.json()
+    except:
+        return
+    if (str(response.status_code) == '404'):
+        return
+    dataLength = len(data['data']['children'])
+    if (dataLength is 0):
+        return
+    for i in range(0, dataLength):
+        try:
+            get_title = data['data']['children'][i]['data']['title']
+            for u in word_list:
+                try:
+                    occurs[u]
+                except KeyError:
+                    occurs[u] = 0
+                finally:
+                    occurs[u] += re.subn(r'(?i)(?<!\S)\b{}\b(?!\S)'.format(u),
+                                         '', get_title)[1]
+        except:
+            pass
+    afterVal = data['data']['after']
+    if (afterVal is not None):
+        return count_words(subreddit, word_list, afterVal, occurs)
+    else:
+        for key in sorted(occurs, key=lambda k: (-occurs[k], k)):
+            if (occurs[key] > 0):
+                print("{}: {}".format(key, occurs[key]))
+        return
